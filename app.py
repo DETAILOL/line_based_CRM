@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
 from __future__ import unicode_literals
 import os
 from flask import Flask, request, abort
@@ -13,10 +7,6 @@ from linebot.models import MessageEvent, TextMessage, TextSendMessage
 import configparser
 import random
 
-
-# In[2]:
-
-
 app = Flask(__name__)
 
 # LINE 聊天機器人的基本資料
@@ -25,10 +15,6 @@ config.read('config.txt')
 
 line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
 handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
-
-
-# In[3]:
-
 
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
@@ -62,6 +48,7 @@ def prettyEcho(event):
         event.reply_token,
         TextSendMessage(text=sendString)
     )
+    
 def divinationBlocks():
     divinationBlocksList = ["笑杯", "正杯", "正杯", "笑杯"] 
     return divinationBlocksList[random.randint(0, len(divinationBlocksList) - 1)]
@@ -71,26 +58,8 @@ def drawStraws():
     return drawStrawsList[random.randint(0, len(drawStrawsList) - 1)]
 
 
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
-
-
-
-# In[ ]:
-
-
 if __name__ == "__main__":
     app.run()
-
-
-# In[ ]:
 
 
 
