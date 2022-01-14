@@ -57,7 +57,28 @@ def handle_message(event):
         TextSendMessage(text=event.message.text + event.source.user_id))
     
 
-    
+@handler.add(MessageEvent, message=TextMessage)
+def prettyEcho(event):
+
+    sendString = ""
+    if "擲筊" in event.message.text:
+        sendString = divinationBlocks()
+    elif "抽簽" in event.message.text or "抽" in event.message.text:
+        sendString = drawStraws()
+    else:
+        sendString = event.message.text 
+
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=sendString)
+    )
+def divinationBlocks():
+    divinationBlocksList = ["笑杯", "正杯", "正杯", "笑杯"] 
+    return divinationBlocksList[random.randint(0, len(divinationBlocksList) - 1)]
+
+def drawStraws():
+    drawStrawsList = ["大吉", "中吉", "小吉", "吉", "凶", "小凶", "中凶", "大凶"]
+    return drawStrawsList[random.randint(0, len(drawStrawsList) - 1)]
 
 if __name__ == "__main__":
     app.run()
