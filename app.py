@@ -54,16 +54,9 @@ def callback():
 def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text))
+        TextSendMessage(text=event.message.text + event.source.user_id + event.source.room_id))
     
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.source.user_id))
-    
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text=event.source.room_id))
-    
+
     
 
 if __name__ == "__main__":
