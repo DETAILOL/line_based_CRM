@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 import os
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
 import configparser
 import random
 from flask import Flask, request, abort
@@ -57,6 +57,13 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=event.message.text + profile.display_name + profile.picture_url))
     
+@handler.add(MessageEvent, message=TextMessage)
+def ice_creamer(event):
+    
+    if "抽" in event.message.text:
+        line_bot_api.reply_message(
+            event.reply_token,
+            ImageSendMessage(original_content_url='photos\DCCB5580-A362-4FBC-B99C-1A01EF51AD58.png'))
 # 抽籤
 # @handler.add(MessageEvent, message=TextMessage)
 # def prettyEcho(event):
