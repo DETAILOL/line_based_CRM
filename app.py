@@ -58,11 +58,11 @@ def handle_message(event):
     
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.source.user_Id))
+        TextSendMessage(text=event.source.user_id))
     
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.source.room_Id))
+        TextSendMessage(text=event.source.room_id))
     
     
 
