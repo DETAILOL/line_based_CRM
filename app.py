@@ -49,14 +49,15 @@ def callback():
 
     return 'OK'
 
-
+# 鸚鵡
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+    profile = line_bot_api.get_profile(event.source.user_id)
     line_bot_api.reply_message(
         event.reply_token,
-        TextSendMessage(text=event.message.text + event.source.user_id))
+        TextSendMessage(text=event.message.text + profile.display_name + profile.picture_url))
     
-
+# 抽籤
 @handler.add(MessageEvent, message=TextMessage)
 def prettyEcho(event):
 
@@ -79,6 +80,10 @@ def divinationBlocks():
 def drawStraws():
     drawStrawsList = ["大吉", "中吉", "小吉", "吉", "凶", "小凶", "中凶", "大凶"]
     return drawStrawsList[random.randint(0, len(drawStrawsList) - 1)]
+
+
+
+
 
 if __name__ == "__main__":
     app.run()
