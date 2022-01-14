@@ -35,7 +35,9 @@ def callback():
     # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-
+    print('---------------------')
+    print(body)
+    print('---------------------')
     # handle webhook body
     try:
         handler.handle(body, signature)
