@@ -60,6 +60,10 @@ def handle_message(event):
         event.reply_token,
         TextSendMessage(text=event.source.user_Id))
     
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=event.source.room_Id))
+    
     
 
 if __name__ == "__main__":
