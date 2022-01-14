@@ -3,6 +3,8 @@
 
 from __future__ import unicode_literals
 import os
+import urllib
+import re
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
@@ -61,34 +63,33 @@ def handle_message(event):
 def ice_creamer(event):
     
     if "抽" in event.message.text:
+
+        q_string = {'tbm': 'isch', 'q': event.message.text.replace('抽','')}
+        url = f"https://www.google.com/search?{urllib.parse.urlencode(q_string)}/"
+        headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36'}
+
+        req = urllib.request.Request(url, headers = headers)
+        conn = urllib.request.urlopen(req)
+
+        print('fetch conn finish')
+
+        pattern = 'img data-src="\S*"'
+        img_list = []
+
+        for match in re.finditer(pattern, str(conn.read())):
+            img_list.append(match.group()[14:-1])
+
+        random_img_url = img_list[random.randint(0, len(img_list)+1)]
+        print('fetch img url finish')
+        print(random_img_url)
+
         line_bot_api.reply_message(
             event.reply_token,
-            ImageSendMessage(original_content_url='photos\DCCB5580-A362-4FBC-B99C-1A01EF51AD58.png'))
-# 抽籤
-# @handler.add(MessageEvent, message=TextMessage)
-# def prettyEcho(event):
-
-#     sendString = ""
-#     if "擲筊" in event.message.text:
-#         sendString = divinationBlocks()
-#     elif "抽簽" in event.message.text or "抽" in event.message.text:
-#         sendString = drawStraws()
-#     else:
-#         sendString = event.message.text 
-
-#     line_bot_api.reply_message(
-#         event.reply_token,
-#         TextSendMessage(text=sendString)
-#     )
-# def divinationBlocks():
-#     divinationBlocksList = ["笑杯", "正杯", "正杯", "笑杯"] 
-#     return divinationBlocksList[random.randint(0, len(divinationBlocksList) - 1)]
-
-# def drawStraws():
-#     drawStrawsList = ["大吉", "中吉", "小吉", "吉", "凶", "小凶", "中凶", "大凶"]
-#     return drawStrawsList[random.randint(0, len(drawStrawsList) - 1)]
-
-
+            ImageSendMessage(
+                original_content_url=random_img_url,
+                preview_image_url=random_img_url
+            )
+        )
 
 
 
