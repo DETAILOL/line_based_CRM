@@ -55,10 +55,11 @@ def handle_message(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(text=event.message.text))
-    profile = line_bot_api.get_profile(event.message.userId)
-
-    TextSendMessage(text=profile.display_name+profile.user_id+profile.picture_url+profile.status_message)
-
+    
+    line_bot_api.reply_message(
+        event.reply_token,
+        TextSendMessage(text=event.source.user_Id))
+    
     
 
 if __name__ == "__main__":
